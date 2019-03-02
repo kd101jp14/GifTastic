@@ -1,3 +1,8 @@
+body {
+    background-color: black;
+    color: #e0a800;
+}
+
 .buttonSpace,
 .gifSpace,
 .form-group {
