@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     // array that holds topics for the buttons and gifs
-    var topics = ["excitement", "fear", "boredom", "disgust", "rage", "love", "annoyance", "gratitude", "amusement", "loneliness"];
+    var topics = ["excited", "afraid", "thankful", "bored", "loved", "annoyed", "brave", "lonely", "silly"];
 
     function createButtons() {
         // delete buttons prior to adding new buttons to avoid repeat buttons
