@@ -23,7 +23,7 @@ $(document).ready(function () {
         };
     }
 
-    $("#submitButton").click(function (event) {
+    $("#submitButton").on("click", function(event) {
         // stop button from trying to submit form
         event.preventDefault();
         // save input value in a variable
@@ -34,9 +34,10 @@ $(document).ready(function () {
         createButtons();
         // clear out search box after submit button has been clicked
         $("#searchBox").val("");
+        console.log(topics);
     });
 
-    $(".feeling").click(function (event) {
+    $(".feeling").on("click", function(event) {
 
         // turn the data-name attribute for buttons into variables we can use
         var feeling = $(this).attr("data-name");
@@ -45,12 +46,30 @@ $(document).ready(function () {
         // limit of 10 pics
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + feeling + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-        // make ajax request and then use the resposnse for a function
+        // make ajax request and then use the response for a function
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function(response){
-            console.log(response);
+
+            var results = response.data;
+            console.log(response.data);
+
+            for (var i = 0; i < results.length; i++) {
+
+                var gifDiv = $("<div>");
+                var rating = results[i].rating;
+                console.log(rating);
+                var ratingDisplay = $("<p>").text("Rating: " + rating);
+                var imageDisplay = $("<img>");
+
+                imageDisplay.attr("src", results[i].images.fixed_height.url);
+                
+                gifDiv.prepend(ratingDisplay);
+                gifDiv.prepend(imageDisplay);
+
+                $(".gifSpace").prepend(gifDiv);
+            }
         });
 
     });
