@@ -1,7 +1,9 @@
 $(document).ready(function () {
 
+    var stillImage ="";
+
     // array that holds topics for the buttons and gifs
-    var topics = ["excited", "afraid", "thankful", "bored", "loved", "annoyed", "brave", "lonely", "silly"];
+    var topics = ["excited", "afraid", "grateful", "bored", "enamoured", "annoyed", "heroic", "lonely", "silly"];
     
     // initial buttons for array items show on page
     createButtons()
@@ -44,7 +46,7 @@ $(document).ready(function () {
 
         // URL that plugs in the feeling variable (the data-name of the button)
         // limit of 10 pics
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + feeling + "&api_key=dc6zaTOxFJmzC&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + feeling + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg";
 
         // make ajax request and then use the response for a function
         $.ajax({
@@ -62,8 +64,9 @@ $(document).ready(function () {
                 console.log(rating);
                 var ratingDisplay = $("<p>").text("Rating: " + rating);
                 var imageDisplay = $("<img>");
+                stillImage = results[i].images.fixed_height_still.url;
 
-                imageDisplay.attr("src", results[i].images.fixed_height.url);
+                imageDisplay.attr("src", stillImage);
                 
                 gifDiv.prepend(ratingDisplay);
                 gifDiv.prepend(imageDisplay);
