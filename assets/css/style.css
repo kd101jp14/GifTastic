@@ -1,10 +1,12 @@
 body {
     background-color: black;
     color: #e0a800;
+    font-size: 20px;
 }
 
-.buttonSpace,
-.gifSpace,
+#title,
+#buttonSpace,
+#gifSpace,
 .form-group {
     margin-top: 30px;
 }
