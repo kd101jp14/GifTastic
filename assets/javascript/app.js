@@ -38,66 +38,71 @@ $(document).ready(function () {
         // clear out search box after submit button has been clicked
         $("#searchBox").val("");
         console.log(topics);
+        interactiveGif()
     });
 
     // initial buttons for array items show on page
     createButtons()
+    interactiveGif()
+    function interactiveGif() {
 
-    $(".feeling").on("click", function (event) {
+        $(".feeling").on("click", function (event) {
 
-        // turn the data-name attribute for buttons into variables we can use
-        var feeling = $(this).attr("data-name");
-        console.log(feeling);
+            // turn the data-name attribute for buttons into variables we can use
+            var feeling = $(this).attr("data-name");
+            console.log(feeling);
 
-        // URL that plugs in the feeling variable (the data-name of the button)
-        // limit of 10 pics
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + feeling + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg";
+            // URL that plugs in the feeling variable (the data-name of the button)
+            // limit of 10 pics
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + feeling + "&api_key=dc6zaTOxFJmzC&limit=10&rating=pg";
 
-        // make ajax request and then use the response for a function
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
+            // make ajax request and then use the response for a function
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
 
-            var results = response.data;
-            console.log(response.data);
+                var results = response.data;
+                console.log(response.data);
 
-            for (var i = 0; i < results.length; i++) {
+                for (var i = 0; i < results.length; i++) {
 
-                var gifDiv = $("<div>");
-                var rating = results[i].rating;
-                console.log(rating);
-                var ratingDisplay = $("<p>").text("Rating: " + rating);
-                var imageDisplay = $("<img>");
-                imageDisplay.attr("id", "img" + [i]);
-                imageDisplay.attr("data-name", "img" + [i]);
-                imageDisplay.attr("data-state", "still");
-                stillImage = results[i].images.fixed_height_still.url;
-                imageDisplay.attr("data-still", stillImage);
-                console.log(stillImage);
-                dynamicImage = results[i].images.fixed_height.url;
-                imageDisplay.attr("data-dynamic", dynamicImage);
-                console.log(dynamicImage);
-                imageDisplay.attr("src", stillImage);
-                gifDiv.prepend(ratingDisplay);
-                gifDiv.prepend(imageDisplay);
+                    var gifDiv = $("<div>");
+                    var rating = results[i].rating;
+                    console.log(rating);
+                    var ratingDisplay = $("<p>").text("Rating: " + rating);
+                    var imageDisplay = $("<img>");
+                    imageDisplay.attr("id", "img" + [i]);
+                    imageDisplay.attr("data-name", "img" + [i]);
+                    imageDisplay.attr("data-state", "still");
+                    stillImage = results[i].images.fixed_height_still.url;
+                    imageDisplay.attr("data-still", stillImage);
+                    console.log(stillImage);
+                    dynamicImage = results[i].images.fixed_height.url;
+                    imageDisplay.attr("data-dynamic", dynamicImage);
+                    console.log(dynamicImage);
+                    imageDisplay.attr("src", stillImage);
+                    gifDiv.prepend(ratingDisplay);
+                    gifDiv.prepend(imageDisplay);
 
-                $("#gifSpace").prepend(gifDiv);
-            };
+                    $("#gifSpace").prepend(gifDiv);
+                };
 
-            $("img").on("click", function (event) {
-                var state = $(this).attr("data-state");
+                $("img").on("click", function (event) {
+                    var state = $(this).attr("data-state");
 
-                if (state === "still") {
-                    $(this).attr("src", $(this).attr("data-dynamic"));
-                    $(this).attr("data-state", "dynamic");
-                } else {
-                    $(this).attr("src", $(this).attr("data-still"));
-                    $(this).attr("data-state", "still");
-                }
+                    if (state === "still") {
+                        $(this).attr("src", $(this).attr("data-dynamic"));
+                        $(this).attr("data-state", "dynamic");
+                    } else {
+                        $(this).attr("src", $(this).attr("data-still"));
+                        $(this).attr("data-state", "still");
+                    }
+                });
+
             });
 
         });
 
-    });
+    };
 });
