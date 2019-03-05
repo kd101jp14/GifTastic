@@ -73,6 +73,7 @@ $(document).ready(function () {
                     var ratingDisplay = $("<p>").text("Rating: " + rating);
                     var imageDisplay = $("<img>");
                     imageDisplay.attr("id", "img" + [i]);
+                    imageDisplay.addClass("img-fluid");
                     imageDisplay.attr("data-name", "img" + [i]);
                     imageDisplay.attr("data-state", "still");
                     stillImage = results[i].images.fixed_height_still.url;

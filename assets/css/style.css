@@ -5,10 +5,20 @@ body {
 }
 
 #title,
-#buttonSpace,
 #gifSpace,
 .form-group {
     margin-top: 30px;
+}
+
+#title {
+    color: #0069d9;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#instructions,
+#buttonSpace {
+    text-align: center;
 }
 
 .btn-warning {
