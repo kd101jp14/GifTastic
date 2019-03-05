@@ -1,18 +1,18 @@
 $(document).ready(function () {
 
-    var stillImage ="";
+    var stillImage = "";
+    var dynamicImage = "";
 
     // array that holds topics for the buttons and gifs
     var topics = ["excited", "afraid", "grateful", "bored", "enamoured", "annoyed", "heroic", "lonely", "silly"];
-    
-    // initial buttons for array items show on page
-    createButtons()
 
     function createButtons() {
         // delete buttons prior to adding new buttons to avoid repeat buttons
-        $(".buttonSpace").empty();
+        $("#buttonSpace").empty();
+
         // for loop that appends a button for each string in the array
         for (var i = 0; i < topics.length; i++) {
+
             // create new button and save it as a variable
             var topicButton = $("<button>");
             // add information to buttons
@@ -21,17 +21,18 @@ $(document).ready(function () {
             topicButton.attr("data-name", topics[i]);
             topicButton.text(topics[i]);
             // put buttons on the page
-            $(".buttonSpace").append(topicButton);
+            $("#buttonSpace").append(topicButton);
         };
     }
 
-    $("#submitButton").on("click", function(event) {
+    $("#submitButton").on("click", function (event) {
+
         // stop button from trying to submit form
         event.preventDefault();
         // save input value in a variable
-        var inputVal = $("#searchBox").val().trim();
+        var feelingInput = $("#searchBox").val().trim();
         // push input value into the array
-        topics.push(inputVal);
+        topics.push(feelingInput);
         // call createButtons function to make new button for input value
         createButtons();
         // clear out search box after submit button has been clicked
@@ -39,10 +40,14 @@ $(document).ready(function () {
         console.log(topics);
     });
 
-    $(".feeling").on("click", function(event) {
+    // initial buttons for array items show on page
+    createButtons()
+
+    $(".feeling").on("click", function (event) {
 
         // turn the data-name attribute for buttons into variables we can use
         var feeling = $(this).attr("data-name");
+        console.log(feeling);
 
         // URL that plugs in the feeling variable (the data-name of the button)
         // limit of 10 pics
@@ -52,7 +57,7 @@ $(document).ready(function () {
         $.ajax({
             url: queryURL,
             method: "GET"
-        }).then(function(response){
+        }).then(function (response) {
 
             var results = response.data;
             console.log(response.data);
@@ -64,15 +69,34 @@ $(document).ready(function () {
                 console.log(rating);
                 var ratingDisplay = $("<p>").text("Rating: " + rating);
                 var imageDisplay = $("<img>");
+                imageDisplay.attr("id", "img" + [i]);
+                imageDisplay.attr("data-name", "img" + [i]);
+                imageDisplay.attr("data-state", "still");
                 stillImage = results[i].images.fixed_height_still.url;
-
+                imageDisplay.attr("data-still", stillImage);
+                console.log(stillImage);
+                dynamicImage = results[i].images.fixed_height.url;
+                imageDisplay.attr("data-dynamic", dynamicImage);
+                console.log(dynamicImage);
                 imageDisplay.attr("src", stillImage);
-                
                 gifDiv.prepend(ratingDisplay);
                 gifDiv.prepend(imageDisplay);
 
-                $(".gifSpace").prepend(gifDiv);
-            }
+                $("#gifSpace").prepend(gifDiv);
+            };
+
+            $("img").on("click", function (event) {
+                var state = $(this).attr("data-state");
+
+                if (state === "still") {
+                    $(this).attr("src", $(this).attr("data-dynamic"));
+                    $(this).attr("data-state", "dynamic");
+                } else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                }
+            });
+
         });
 
     });
